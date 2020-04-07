@@ -14,16 +14,16 @@ Edith 家庭管家
 百度云平台
 
 环境配置:\
-1.树莓派系统安装
+1.树莓派系统安装\
 https://www.raspberrypi.org/downloads/raspbian/ 
 
-2.Respeaker设置及测试
+2.Respeaker设置及测试\
 http://wiki.seeedstudio.com/ReSpeaker_4_Mic_Array_for_Raspberry_Pi/ 
 
-3.百度智能云平台项目注册
+3.百度智能云平台项目注册\
 https://login.bce.baidu.com/?redirect=https%3A%2F%2Fconsole.bce.baidu.com%2Fai%2F%3F_%3D1586233983111%26fromai%3D1#/ai/speech/overview/index
 
-4.天气api接口注册
+4.天气api接口注册\
 https://www.seniverse.com/
 
 功能预期:
