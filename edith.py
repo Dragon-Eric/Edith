@@ -1,4 +1,4 @@
-#coding:utf-8
+# coding:utf-8
 import pyaudio
 import wave
 from baidu_speech_api import BaiduVoiceApi
@@ -8,7 +8,7 @@ import sys
 import RPi.GPIO as GPIO
 import os
 from aip.speech import AipSpeech
-
+from regular import Regular_question
 from urllib2 import Request, urlopen, URLError, HTTPError
 
 
@@ -17,7 +17,7 @@ RESPEAKER_CHANNELS = 1
 RESPEAKER_WIDTH = 2
 CHUNK = 1024
 RECORD_SECONDS = 2
-#WAVE_OUTPUT_FILENAME = "output.wav"
+# WAVE_OUTPUT_FILENAME = "output.wav"
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(12, GPIO.OUT)
@@ -27,11 +27,11 @@ GPIO.output(13, GPIO.LOW)
 
 p = pyaudio.PyAudio()
 stream = p.open(
-            rate=RESPEAKER_RATE,
-            format=p.get_format_from_width(RESPEAKER_WIDTH),
-            channels=RESPEAKER_CHANNELS,
-            input=True,
-            start=False,)
+    rate=RESPEAKER_RATE,
+    format=p.get_format_from_width(RESPEAKER_WIDTH),
+    channels=RESPEAKER_CHANNELS,
+    input=True,
+    start=False,)
 
 APP_ID = '16886339'
 API_KEY = 'Ly0TST3N8Y7PA7pLrrou1PZX'
@@ -40,11 +40,13 @@ SECRET_KEY = 'O4BphHmbRrwL4K7jBIdHD9cuzVMWAKmg'
 
 aipSpeech = AipSpeech(APP_ID, API_KEY, SECRET_KEY)
 
-baidu = BaiduVoiceApi(appkey=API_KEY,secretkey=SECRET_KEY)
+baidu = BaiduVoiceApi(appkey=API_KEY, secretkey=SECRET_KEY)
+
 
 def generator_list(list):
     for l in list:
         yield l
+
 
 def record():
     stream.start_stream()
@@ -64,11 +66,12 @@ def record():
             for t in text['result']:
                 print(t)
                 return(t)
-        except KeyError: 
+        except KeyError:
             return("get nothing")
     else:
         print("get nothing")
         return("get nothing")
+
 
 def sigint_handler(signum, frame):
     stream.stop_stream()
@@ -77,6 +80,7 @@ def sigint_handler(signum, frame):
     print('catched interrupt signal!')
     sys.exit(0)
 
+
 # 注册ctrl-c中断
 signal.signal(signal.SIGINT, sigint_handler)
 
@@ -84,24 +88,46 @@ while True:
     try:
         outputtext = record()
         if (u'在吗') in outputtext:
-            print("我在,有什么可以帮你")
-            #os.system("sudo mpg123 turnon.mp3")
+            os.system("sudo mpg123 ./Music/help.mp3")
+            continue
+
+        elif (u'吃饭了吗') in outputtext:
+            os.system("sudo mpg123 ./Music/eat.mp3")
+            continue
+
+        elif (u'名字') in outputtext:
+            os.system("sudo mpg123 ./Music/name.mp3")
+            continue
+
+        elif (u'放音乐') in outputtext:
+            os.system("sudo mpg123 ./Music/play_music.mp3")
+            os.system("sudo mpg123 ./Music/BULLSHIT.mp3")
+            continue
+
+        elif (u'天气') in outputtext:
+            re = Regular_question()
+            re.weather_now()
+            continue
+
+        elif (u'我回来了') in outputtext:
+            os.system("sudo mpg123 ./Music/home.mp3")
+            continue
+
+        elif (u'来啊') in outputtext:
+            os.system("sudo mpg123 ./Music/unknown.mp3")
+            continue
+
+        elif (u'几号') in outputtext:
+            re = Regular_question()
+            re.gettimeinfo(1)
+            continue
+
+        elif (u'几点') in outputtext:
+            re = Regular_question()
+            re.gettimeinfo(2)
+            continue
 
 
-        if (u'吃饭了吗') in outputtext:
-            print("吃过了,你呢")
-            #os.system("sudo mpg123 faster.mp3")
-
-                    
-        if (u'你叫什么名字') in outputtext:
-            print("我叫Edith")
-            #os.system("sudo mpg123 lower.mp3")
-
-
-        if (u'hello') in outputtext:
-            print("hi,I am Edith")
-
-
-    except KeyError: 
+    except KeyError:
         stream.close()
         p.terminate()
