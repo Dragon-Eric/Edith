@@ -7,10 +7,10 @@ Edith 家庭管家
 
 安装：
 ---
-硬件平台：
+硬件平台:\
 树莓派3B+、Respeaker 4-MIC Array for Raspberry Pi、CSI 500万像素摄像头、3.5mm接口小音响
 
-软件平台:
+软件平台:\
 百度云平台
 
 环境配置:
