@@ -11,7 +11,7 @@ SECRET_KEY = 'O4BphHmbRrwL4K7jBIdHD9cuzVMWAKmg'
 aipSpeech = AipSpeech(APP_ID, API_KEY, SECRET_KEY)
 
 #string = '现在温度是{}摄氏度'.format(27.0)
-string = ' 好的主人，马上为您开块一点'
+string = '我没听懂，能再说一次吗'
 
 result  = aipSpeech.synthesis(string, 'zh', 1, {
     'vol': 5, 'per': 5,
@@ -20,7 +20,7 @@ result  = aipSpeech.synthesis(string, 'zh', 1, {
 
 # 识别正确返回语音二进制 错误则返回dict 参照下面错误码
 if not isinstance(result, dict):
-    with open('faster.mp3', 'wb') as f:
+    with open('./Music/disunderstand.mp3', 'wb') as f:
         f.write(result)
-    os.system("mpg123 faster.mp3")
+    os.system("sudo mpg123 ./Music/disunderstand.mp3")
 
