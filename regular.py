@@ -18,9 +18,9 @@ def str_to_mp3(string):
 
     # 识别正确返回语音二进制 错误则返回dict 参照下面错误码
     if not isinstance(result, dict):
-        with open('./Music/regular.mp3', 'wb') as f:
+        with open('./bgm/regular.mp3', 'wb') as f:
             f.write(result)
-        os.system("sudo mpg123 ./Music/regular.mp3")
+        os.system("sudo mpg123 ./bgm/regular.mp3")
 
 
 class Regular_question:
@@ -28,7 +28,7 @@ class Regular_question:
     def weather_now(self):
         weather_str = getWeatherStr()
         str_to_mp3(weather_str)
-        os.system("rm ./Music/regular.mp3")
+        os.system("rm ./bgm/regular.mp3")
 
     def gettimeinfo(self, kind):
         #1表示日期，2表示时间
@@ -52,4 +52,4 @@ class Regular_question:
                 str(info[4]) + "分"
 
         str_to_mp3(info_str)
-        os.system("rm ./Music/regular.mp3")
+        os.system("rm ./bgm/regular.mp3")

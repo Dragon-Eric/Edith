@@ -15,8 +15,6 @@ client = AipFace(F_APP_ID, F_API_KEY, F_SECRET_KEY)
 IMAGE_TYPE = 'BASE64'
 GROUP = 'cde'
 
-CMD_PATH = "sudo mpg123 ./Music/"
-
 pic = PiCamera()
 
 def getpic():
@@ -24,13 +22,13 @@ def getpic():
     pic.rotation = 180
     pic.start_preview()
     time.sleep(1)
-    pic.capture('facepic.jpg')
-    img = cv2.imread('facepic.jpg')
+    pic.capture('./pic/facepic.jpg')
+    img = cv2.imread('./pic/facepic.jpg')
     cv2.imshow("FRAME", img)
     cv2.waitKey(2000)
 
 def transpic():
-    f = open('facepic.jpg', 'rb')
+    f = open('./pic/facepic.jpg', 'rb')
     img = base64.b64encode(f.read())
     return img
 
@@ -41,16 +39,16 @@ def go_baidu(pic):
         score = result['result']['user_list'][0]['score']
         if score > 80:
             if name == 'cde':
-                os.system("sudo mpg123 ./Music/cde.mp3")
+                os.system("sudo mpg123 ./bgm/cde.mp3")
                 time.sleep(3)
             elif name == 'min':
-                os.system("sudo mpg123 ./Music/min.mp3")
+                os.system("sudo mpg123 ./bgm/min.mp3")
                 time.sleep(3)   
             elif name == 'ran':
-                os.system("sudo mpg123 ./Music/ran.mp3")
+                os.system("sudo mpg123 ./bgm/ran.mp3")
                 time.sleep(3)          
         else:
-            os.system("sudo mpg123 ./Music/unknown.mp3")
+            os.system("sudo mpg123 ./bgm/unknown.mp3")
             name = 'Unknow'
             return 0
             
@@ -62,7 +60,7 @@ def go_baidu(pic):
         return 1
 
     if result['error_msg'] == 'pic not has face':
-        os.system(CMD_PATH + "noface.mp3")
+        os.system("sudo mpg123 ./bgm/noface.mp3")
         time.sleep(2)
         return 0
     else:
@@ -79,4 +77,4 @@ if __name__ == '__main__':
         print("welcome")
     else:
         print("???")
-    os.system("rm ./Pic/facepic.jpg")
+    os.system("rm ./pic/facepic.jpg")

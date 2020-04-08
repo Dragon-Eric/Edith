@@ -20,7 +20,7 @@ result  = aipSpeech.synthesis(string, 'zh', 1, {
 
 # 识别正确返回语音二进制 错误则返回dict 参照下面错误码
 if not isinstance(result, dict):
-    with open('./Music/disunderstand.mp3', 'wb') as f:
+    with open('./bgm/disunderstand.mp3', 'wb') as f:
         f.write(result)
-    os.system("sudo mpg123 ./Music/disunderstand.mp3")
+    os.system("sudo mpg123 ./bgm/disunderstand.mp3")
 

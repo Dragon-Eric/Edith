@@ -9,6 +9,7 @@ import RPi.GPIO as GPIO
 import os
 from aip.speech import AipSpeech
 from regular import Regular_question
+from play_music import music_list
 from urllib2 import Request, urlopen, URLError, HTTPError
 
 
@@ -88,20 +89,15 @@ while True:
     try:
         outputtext = record()
         if (u'在吗') in outputtext:
-            os.system("sudo mpg123 ./Music/help.mp3")
+            os.system("sudo mpg123 ./bgm/help.mp3")
             continue
 
         elif (u'吃饭了吗') in outputtext:
-            os.system("sudo mpg123 ./Music/eat.mp3")
+            os.system("sudo mpg123 ./bgm/eat.mp3")
             continue
 
         elif (u'名字') in outputtext:
-            os.system("sudo mpg123 ./Music/name.mp3")
-            continue
-
-        elif (u'放音乐') in outputtext:
-            os.system("sudo mpg123 ./Music/play_music.mp3")
-            os.system("sudo mpg123 ./Music/BULLSHIT.mp3")
+            os.system("sudo mpg123 ./bgm/name.mp3")
             continue
 
         elif (u'天气') in outputtext:
@@ -110,11 +106,11 @@ while True:
             continue
 
         elif (u'我回来了') in outputtext:
-            os.system("sudo mpg123 ./Music/home.mp3")
+            os.system("sudo mpg123 ./bgm/home.mp3")
             continue
 
         elif (u'来啊') in outputtext:
-            os.system("sudo mpg123 ./Music/unknown.mp3")
+            os.system("sudo mpg123 ./bgm/unknown.mp3")
             continue
 
         elif (u'几号') in outputtext:
@@ -127,6 +123,18 @@ while True:
             re.gettimeinfo(2)
             continue
 
+        elif (u'放音乐') in outputtext:
+            os.system("sudo mpg123 ./bgm/play_music.mp3")
+            index = 0
+            os.system("sudo mpg123 ./music/" + str(music_list(index)))
+            continue
+
+        elif (u'下一首') in outputtext:
+            index += 1
+            if index == 5:
+                index = 0
+            os.system("sudo mpg123 ./music/" + str(music_list(index)))
+            continue
 
     except KeyError:
         stream.close()
